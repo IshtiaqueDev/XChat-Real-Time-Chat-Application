@@ -1,3 +1,14 @@
 * {
     font-family: 'Poppins';
 }
+.login-card { 
+    width: 500px; 
+    border: none; 
+    border-radius: 15px; 
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.35); 
+    transition: 0.3s ease; 
+} 
+
+.login-card:hover { 
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.55); 
+}
