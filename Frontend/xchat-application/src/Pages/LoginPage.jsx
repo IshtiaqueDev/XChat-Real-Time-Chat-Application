@@ -1,14 +1,31 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 function LoginPage(){
+    
     const initialState={
         username:"",
         password:""
     }
+
     const[formData,setFormData]=useState(initialState);
+    
+    const handleChange=(e)=>{
+       setFormData((prevData)=>{
+        return {
+            ...prevData,[e.target.name]:e.target.value
+        }
+       })
+    }
+
     const handleSubmit=(e)=>{
         e.preventDefault();
+        console.log(formData)
+        setFormData(initialState);
     }
+
+
+
     return(
         <>
      <div className="container-fluid vh-100 d-flex justify-content-center align-items-center bg-light">
@@ -27,6 +44,10 @@ function LoginPage(){
                         <input
                             type="text"
                             id="username"
+                            name="username"
+                            required
+                            onChange={handleChange}
+                            value={formData.username}
                             className="form-control"
                             placeholder="exp: Hooria"
                         />
@@ -37,7 +58,11 @@ function LoginPage(){
                         <input
                             type="password"
                             id="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
                             className="form-control"
+                            required
                             placeholder="exp: 1234"
                         />
                     </div>
