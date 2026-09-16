@@ -1,15 +1,15 @@
 const express=require("express");
 const cors=require("cors");
 const connectDB=require("./config/db")
-const wrapAsync=require("./utils/wrapAsync");
 const session=require("express-session");
+const UserRoute=require("./routes/User");
 const passport=require("passport");
 const port=5000;
 
 const app=express();
 
 app.use(cors({
-    origin:"http://localhost:5173/",
+    origin:"http://localhost:5173",
     credentials:true
 }))
 
@@ -22,7 +22,7 @@ app.use(session({
     saveUninitialized:true,
     cookie:{
         maxAge:7 * 24 * 60 * 60 * 1000,
-        httpsOnly:true,
+        httpOnly:true,
         secure:true,
         sameSite:"none"
     }
@@ -35,6 +35,7 @@ app.use(passport.session());
 passport.serializeUser((user,done)=>{
     done(null,user._id);
 })
+
 passport.deserializeUser(async(id,done)=>{
     try {
         const user = await User.findById(id);
@@ -43,6 +44,9 @@ passport.deserializeUser(async(id,done)=>{
         done(err);
   }
 })
+
+
+app.use("/user",UserRoute);
 
 
 app.use((err, req, res, next) => {

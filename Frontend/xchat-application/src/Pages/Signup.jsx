@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 function Signup(){
     
@@ -19,11 +20,20 @@ function Signup(){
        })
     }
 
-    const handleSubmit=(e)=>{
+    const handleSubmit=async(e)=>{
         e.preventDefault();
         if(formData.password.length<8){
             toast.warn("Password Should be at least 8 characters")
             return;
+        }
+
+        try{
+            let response=await axios.post("http://localhost:5000/user/signup",formData,{
+            withCredentials:true
+        })
+        toast.success(response.data.message);
+        }catch(err){
+            toast.error(err.message);
         }
         console.log(formData)
         setFormData(initialState);

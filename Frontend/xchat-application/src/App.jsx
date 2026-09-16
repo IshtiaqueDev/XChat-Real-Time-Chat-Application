@@ -5,6 +5,7 @@ import "./index.css"
 import Loader from "./components/Loader";
 const LoginPage=lazy(()=>import("./Pages/LoginPage"));
 const SignupPage=lazy(()=>import("./Pages/Signup"));
+const ErrorPage=lazy(()=>import("./Pages/ErrorPage"));
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
     <Routes>
       <Route path="/" element={<LoginPage/>}></Route>
       <Route path="/signup" element={<SignupPage/>}></Route>
+      <Route path="*" element={<ErrorPage/>}></Route>
     </Routes>
   </Suspense>
     </>
