@@ -29,7 +29,7 @@ This project is also part of my ongoing **daily GitHub development journey**, wh
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 
