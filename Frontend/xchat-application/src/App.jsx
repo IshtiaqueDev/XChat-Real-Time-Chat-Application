@@ -6,6 +6,7 @@ import Loader from "./components/Loader";
 const LoginPage=lazy(()=>import("./Pages/LoginPage"));
 const SignupPage=lazy(()=>import("./Pages/Signup"));
 const ErrorPage=lazy(()=>import("./Pages/ErrorPage"));
+const ChatDashboard=lazy(()=>import("./Pages/ChatDashboard"));
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
     <Routes>
       <Route path="/" element={<LoginPage/>}></Route>
       <Route path="/signup" element={<SignupPage/>}></Route>
-      <Route path="/dashboard" element={<D}></Route>
+      <Route path="/dashboard" element={<ChatDashboard/>}></Route>
       <Route path="*" element={<ErrorPage/>}></Route>
     </Routes>
   </Suspense>
