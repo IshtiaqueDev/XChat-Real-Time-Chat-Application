@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Signup(){
-    
+    const navigate=useNavigate();
+
     const initialState={
         username:"",
         email:"",
@@ -32,11 +34,12 @@ function Signup(){
             withCredentials:true
         })
         toast.success(response.data.message);
+        setFormData(initialState);
+        navigate("/dashboard");
         }catch(err){
             toast.error(err.message);
         }
-        console.log(formData)
-        setFormData(initialState);
+        console.log(formData);
     }
 
 
