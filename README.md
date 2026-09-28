@@ -25,7 +25,7 @@ This project is also part of my ongoing **daily GitHub development journey**, wh
 *  MongoDB database
 *  Responsive web interface
 *  Authentication-based access
-*  Real-time event handling
+*  Real-time events handling
 
 ---
 
