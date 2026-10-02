@@ -175,25 +175,23 @@ After authentication, users can see other registered users available on the plat
 
 ### Real-Time Messaging
 
-Messages are handled through **Socket.IO**, allowing users to communicate without manually refreshing the page.
+Messages are sent through an authenticated **Socket.IO** connection. The server saves each message to MongoDB before broadcasting it, so the recipient sees it in an open conversation without refreshing.
 
-### Event-Based Communication
+### Socket.IO Events and Rooms
 
-XChat uses Socket.IO's event-driven architecture:
-
-```javascript
-socket.emit("message", data);
-```
-
-and on the server:
+The Socket.IO handshake reuses the Express session and Passport authentication. Each connected user joins a private room named `user:<userId>`. When the sender submits a message, the client emits:
 
 ```javascript
-socket.on("message", (data) => {
-    // Handle message
+socket.emit("chat:send", { recipientId, message }, (result) => {
+  if (result.ok) {
+    // The server persisted and acknowledged the message.
+  }
 });
 ```
 
-This provides the foundation for real-time communication between connected users.
+The server validates the message, stores it, then sends `chat:message` to both the sender's and recipient's rooms. The dashboard listens for that event and updates the active conversation immediately. Chat history is loaded from the REST API when a conversation is opened.
+
+This demonstrates authenticated handshakes, private rooms, client-to-server events, server-to-client broadcasts, acknowledgements, and persistence together.
 
 ---
 
@@ -227,9 +225,9 @@ The application is being developed incrementally, with new functionality and imp
 * [x] Authentication foundation
 * [x] User listing
 * [x] Socket.IO integration
-* [ ] User-to-user messaging
-* [ ] Message persistence
-* [ ] Chat UI improvements
+* [x] User-to-user messaging
+* [x] Message persistence
+* [x] Chat UI improvements
 * [ ] Deployment
 * [ ] Further real-time features
 

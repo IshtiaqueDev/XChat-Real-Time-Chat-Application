@@ -7,15 +7,21 @@ const LoginPage=lazy(()=>import("./Pages/LoginPage"));
 const SignupPage=lazy(()=>import("./Pages/Signup"));
 const ErrorPage=lazy(()=>import("./Pages/ErrorPage"));
 const ChatDashboard=lazy(()=>import("./Pages/ChatDashboard"));
+import ProtectedRoute from "./utils/ProtectedRoute";
+import RedirectDashboard from "./utils/RedirectDashboard";
 
 function App() {
   return (
     <>
     <Suspense fallback={<Loader/>}>
     <Routes>
-      <Route path="/" element={<LoginPage/>}></Route>
-      <Route path="/signup" element={<SignupPage/>}></Route>
-      <Route path="/dashboard" element={<ChatDashboard/>}></Route>
+      <Route path="/" element={<RedirectDashboard><LoginPage/></RedirectDashboard>}></Route>
+      <Route path="/signup" element={<RedirectDashboard><SignupPage/></RedirectDashboard>}></Route>
+      <Route path="/dashboard" element={
+          <ProtectedRoute>
+              <ChatDashboard/>
+          </ProtectedRoute>
+    }></Route>
       <Route path="*" element={<ErrorPage/>}></Route>
     </Routes>
   </Suspense>

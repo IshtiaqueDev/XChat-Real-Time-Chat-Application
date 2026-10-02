@@ -1,24 +1,31 @@
-const mongoose=require("mogoose");
+const mongoose = require("mongoose");
 
-const chatSchema=new mongoose.Schema({
-    from:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"User"
+const chatSchema = new mongoose.Schema({
+    from: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     },
-    to:{
-        type:mongooose.Schema.Types.ObjectId,
-        ref:"User",
+    to: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     },
-    message:{
-        type:String,
-        required:true
+    message: {
+        type: String,
+        required: true,
+        trim: true
     },
-    atTime:{
-        type:Date,
-        default:Date.now()
+    atTime: {
+        type: Date,
+        default: Date.now
+    },
+    readAt: {
+        type: Date,
+        default: null
     }
-})
+});
 
-let Chat=mongoose.model("Chat",chatSchema);
+const Chat = mongoose.model("Chat", chatSchema);
 
-module.exports=Chat;
+module.exports = Chat;

@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../context/UserContext";
 
 function LoginPage(){
-    
     const initialState={
         username:"",
         password:""
     }
-
     const[formData,setFormData]=useState(initialState);
-    
+    const { setUser } = useContext(UserContext);
+    const navigate=useNavigate();
     const handleChange=(e)=>{
        setFormData((prevData)=>{
         return {
@@ -18,10 +21,23 @@ function LoginPage(){
        })
     }
 
+    const login=async()=>{
+        try{
+            let response=await axios.post("http://localhost:5000/user/login",formData,{
+                withCredentials:true
+            })
+            setFormData(initialState);
+            setUser(response.data.user);
+            toast.success(response.data.message);
+            navigate("/dashboard");
+        }catch(err){
+            toast.error(err.response?.data?.message || "Invalid username or password");
+        }
+    }
+
     const handleSubmit=(e)=>{
         e.preventDefault();
-        console.log(formData)
-        setFormData(initialState);
+        login();
     }
 
 

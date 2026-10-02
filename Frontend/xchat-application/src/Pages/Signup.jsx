@@ -35,11 +35,10 @@ function Signup(){
         })
         toast.success(response.data.message);
         setFormData(initialState);
-        navigate("/dashboard");
+        navigate("/");
         }catch(err){
-            toast.error(err.message);
+            toast.error(err.response?.data?.message || "Could not create your account. Please try again.");
         }
-        console.log(formData);
     }
 
 
@@ -97,7 +96,7 @@ function Signup(){
                             onChange={handleChange}
                             className="form-control"
                             required
-                            placeholder="exp: 1234"
+                            placeholder="At least 8 characters"
                         />
                     </div>
 

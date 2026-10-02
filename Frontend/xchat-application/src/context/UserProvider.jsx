@@ -1,37 +1,35 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserContext from "./UserContext";
+import axios from "axios";
 
-function UserProvider({children}){
-    const[user,setUser]=useState(null);
+function UserProvider({ children }) {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const getUser=async()=>{
-        try{
-            let response=await axios.get("http://localhost:5173/user",{
-                withCredentials:true
+    useEffect(() => {
+        let isActive = true;
+
+        axios.get("http://localhost:5000/user", { withCredentials: true })
+            .then((response) => {
+                if (isActive) setUser(response.data.user || null);
+            })
+            .catch(() => {
+                if (isActive) setUser(null);
+            })
+            .finally(() => {
+                if (isActive) setLoading(false);
             });
-            if(response.data.user){
-                setUser(response.data.user);
-            }else{
-                console.log("User doesnot Exist");
-            }
-        }catch(err){
 
-        }
-    }
+        return () => {
+            isActive = false;
+        };
+    }, []);
 
-    useEffect(()=>{
-        getUser();
-    },[]);
-
-
-    return(
-        <>
-        <UserContext.Provider >
+    return (
+        <UserContext.Provider value={{ user, setUser, loading }}>
             {children}
         </UserContext.Provider>
-        </>
-    )
+    );
 }
 
 export default UserProvider;
